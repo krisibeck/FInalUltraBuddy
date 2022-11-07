@@ -1,0 +1,50 @@
+#:import MainWindow main_window.MainWindow
+#:import BuddyWindow buddy_window.BuddyWindow
+
+<NavLabel@MDLabel>:
+    font_style: 'H5'
+    halign: 'center'
+    md_bg_color: app.theme_cls.primary_light
+    color: app.theme_cls.primary_dark
+
+
+<MainWindow>:
+    name: "main_window"
+    size_hint: 1, 1
+    FitImage:
+        source: 'img/vit100.jpeg'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 1
+        spacing: '20dp'
+        padding: [20, 0, 0, 60]
+
+        MDLabel:
+            text: 'Ultra Buddy'
+            font_style: 'H1'
+            halign: 'center'
+            pos_hint: {"center_x": 0.5}
+            size_hint: 0.8, 0.2
+            color: 1, 1, 1, 1
+
+        MDSmartTile:
+            radius: 24
+            box_radius: [0, 0, 14, 14]
+            box_color: app.theme_cls.primary_light
+            source: "img/vit100b.jpeg"
+            pos_hint: {"center_x": 0.5}
+            pos_y: 0.2
+            size_hint: None, None
+            size: "340dp", "340dp"
+            box_position: "footer"
+
+            MDLabel:
+                text: "2022 RACE"
+                font_style: 'H5'
+                halign: 'center'
+                bold: True
+                color: app.theme_cls.primary_dark
+
+
+
