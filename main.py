@@ -5,7 +5,7 @@ from kivy.core.window import Window
 from kivymd.app import MDApp
 
 from gpshelper import GpsHelper
-
+from map_model import MapModel
 
 # Uncomment to emulate phone dimensions in Desktop app
 Window.size = (375, 750)
@@ -32,14 +32,23 @@ class UltraBuddyApp(MDApp):
         self.theme_cls.theme_style = 'Dark'
         self.theme_cls.material_style = 'M3'
 
-        # Connect to DB
-        self.connection = sqlite3.connect('ultra_buddy2.db')
-        self.cursor = self.connection.cursor()
+        # Start map model
+        self.map_model = MapModel('ultra_buddy3.db')
 
-        # Get route points and stations
+
+        # # Connect to DB
+        # self.connection = sqlite3.connect('ultra_buddy2.db')
+        # self.cursor = self.connection.cursor()
+
+        # Set up views and models
         app = MDApp.get_running_app()
-        app.root.map_w.get_track_points()
-        app.root.map_w.pin_stations()
+        app.root.map_w.add_station_views_from_station_models()
+        self.map_model.add_observer(app.root.map_w)
+        self.map_model.add_observer(app.root.next_w)
+        app.root.map_w.main_map.center_on(*self.map_model.map_center)
+
+        # app.root.map_w.get_track_points()
+        # app.root.map_w.pin_stations()
 
         # Initiate GPS
         print('***App starting - starting GPS...')

@@ -14,7 +14,7 @@ class GpsHelper:
         gps_blinker.blink()
 
         # uncomment to run as desktop app instead of mobile app
-        self.update_blinker_position()
+        self.pass_new_gps_to_map_model()
 
         # Request permissions and start gps service on Android
         if platform == 'android':
@@ -22,7 +22,7 @@ class GpsHelper:
             def callback(permission, results):
                 if all([res for res in results]):
                     print("Got all permissions")
-                    gps.configure(on_location=self.update_blinker_position,
+                    gps.configure(on_location=self.pass_new_gps_to_map_model,
                                   on_status=self.on_auth_status)
                     gps.start(minTime=30000, minDistance=100)
                 else:
@@ -34,7 +34,7 @@ class GpsHelper:
 
         # Start gps service on iOS
         if platform == 'ios':
-            gps.configure(on_location=self.update_blinker_position,
+            gps.configure(on_location=self.pass_new_gps_to_map_model,
                           on_status=self.on_auth_status)
             gps.start(minTime=30000, minDistance=100)
 
@@ -47,7 +47,7 @@ class GpsHelper:
         """Initiated on_resume of App to start collecting gps data again (no permissions needed)."""
         gps.start(minTime=30000, minDistance=100)
 
-    def update_blinker_position(self, *args, **kwargs):
+    def pass_new_gps_to_map_model(self, *args, **kwargs):
         # gps_lat = kwargs['lat']
         # gps_lon = kwargs['lon']
         # Can use these hard-coded coordinates for testing
@@ -55,22 +55,23 @@ class GpsHelper:
         gps_lon = 23.206102
         print("GPS POSITION:", gps_lat, gps_lon)
         app = App.get_running_app()
+        app.map_model.update_model_from_gps_pos(gps_lat, gps_lon)
 
         # Update gps location to closest point on track
-        closest_route_point = app.root.map_w.get_closest_point_on_track(gps_lat, gps_lon)
+        # closest_route_point = app.root.map_w.get_closest_point_on_track(gps_lat, gps_lon)
         # print('closet route point:', closest_route_point)
-        track_lat, track_lon = closest_route_point[:2]
+        # track_lat, track_lon = closest_route_point[:2]
 
         # Update GpsBlinker position
-        gps_blinker = app.root.map_w.ids.blinker
-        gps_blinker.lat = track_lat
-        gps_blinker.lon = track_lon
+        # gps_blinker = app.root.map_w.ids.blinker
+        # gps_blinker.lat = track_lat
+        # gps_blinker.lon = track_lon
 
         # Update station distances from runner
-        stations = app.root.map_w.stations
-        for station in stations:
-            station.update_station_dist_diff_from_runner(closest_route_point)
-        app.root.next_w.update_next_station()
+        # stations = app.root.map_w.stations
+        # for station in stations:
+        #     station.update_station_dist_diff_from_runner(closest_route_point)
+        # app.root.next_w.update_next_station()
 
 
     def on_auth_status(self, general_status, status_message):

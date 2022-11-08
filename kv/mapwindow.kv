@@ -5,11 +5,11 @@
     name: "map_window"
     size: root.width, root.height
     main_map: the_main_map
+    blinker: blinker
 
     MapView:
         id: the_main_map
-        lat: 42.552419
-        lon: 23.259421
+
         zoom: 11
         double_tap_zoom: True
         on_zoom:
@@ -30,7 +30,7 @@
             md_bg_color: app.theme_cls.primary_color
             on_press:
                 root.main_map.zoom = 11
-                root.main_map.center_on(42.552419, 23.259421)
+                root.main_map.center_on(*app.map_model.map_center)
 
         MDFloatingActionButton:
             icon: 'crosshairs'
