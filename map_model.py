@@ -7,7 +7,7 @@ from station_model import StationModel
 
 
 class MapModel:
-    def __init__(self, db_path):
+    def __init__(self, db_path, table):
         self.points = None
         self.model_stations = []
         self.runner_path = []
@@ -15,26 +15,34 @@ class MapModel:
 
         connection = sqlite3.connect(db_path)
         cursor = connection.cursor()
-        self._get_track_points(cursor)
-        self._make_station_objects(cursor)
+        self._get_track_points(cursor, table)
+        self._make_station_objects(cursor, table)
         connection.close()
 
         self.map_center = self.get_center_of_map_from_stations()
 
         self.observers = []
 
-    def _get_track_points(self, cursor):
-        cursor.execute("SELECT latitude, longitude, elevation, distance FROM vitosha100 WHERE st_name is NULL")
+    def _get_track_points(self, cursor, table_name):
+        # query = "SELECT 1 FROM sqlite_master WHERE type='table' and name = ?"
+        # validated_table_name = cursor.execute(query, (table_name,)).fetchone()
+        validated_table_name = table_name
+        # cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM :table WHERE st_name is NULL", {'table': table_name})
+        # cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM ? WHERE st_name is NULL", (table_name,))
+        cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM {validated_table_name} WHERE st_name is NULL")
         self.points = cursor.fetchall()
 
-    def _get_station_points(self, cursor):
-        cursor.execute("SELECT * FROM vitosha100 WHERE st_name is NOT NULL")
+    def _get_station_points(self, cursor, table_name):
+        # query = "SELECT 1 FROM sqlite_master WHERE type='table' and name = ?"
+        # validated_table_name = cursor.execute(query, (table_name,)).fetchone()
+        validated_table_name = table_name
+        cursor.execute(f"SELECT * FROM {validated_table_name} WHERE st_name is NOT NULL")
         return cursor.fetchall()
 
-    def _make_station_objects(self, cursor):
+    def _make_station_objects(self, cursor, table):
         """Pins the stations along the route and saves them as a list of Station() objects in self.stations"""
 
-        for station in self._get_station_points(cursor):
+        for station in self._get_station_points(cursor, table):
             st_lat, st_lon, elev, dist, st_name = station
             st = StationModel(st_name, st_lat, st_lon, elev, dist, 0)
             self.model_stations.append(st)

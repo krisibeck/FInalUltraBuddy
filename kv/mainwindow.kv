@@ -16,27 +16,28 @@
 
     MDBoxLayout:
         orientation: 'vertical'
-        size_hint: 1, 1
+        adaptive_size: True
+        pos_hint: {"center_x": 0.5}
         spacing: '20dp'
-        padding: [20, 0, 0, 60]
+        padding: [20, 20, 20, 20]
 
         MDLabel:
             text: 'Ultra Buddy'
-            font_style: 'H1'
+            font_style: 'H2'
             halign: 'center'
             pos_hint: {"center_x": 0.5}
-            size_hint: 0.8, 0.2
+            adaptive_size: True
             color: 1, 1, 1, 1
 
         MDSmartTile:
+            id: smart_tile
             radius: 24
             box_radius: [0, 0, 14, 14]
             box_color: app.theme_cls.primary_light
             source: "img/vit100b.jpeg"
             pos_hint: {"center_x": 0.5}
-            pos_y: 0.2
             size_hint: None, None
-            size: "340dp", "340dp"
+            size: "300dp", "300dp"
             box_position: "footer"
 
             MDLabel:
@@ -46,5 +47,32 @@
                 bold: True
                 color: app.theme_cls.primary_dark
 
+        MDBoxLayout:
+            orientation: 'horizontal'
+            adaptive_size: True
+            pos_hint: {'center_y': 0.5}
+            spacing: '20dp'
+            padding: [0, 30, 0, 30]
 
+            MDRaisedButton:
+                text: "Vitosha\n100"
+                font_style: 'Button'
+                pos_hint: {'center_x': 0.5}
+                on_release:
+                    root.change_race_to_vitosha100(*args)
+
+            MDRaisedButton:
+                text: "Tryavna\n100"
+                font_style: 'Button'
+                pos_hint: {'center_x': 0.5}
+                on_release:
+                    root.change_race_to_tryavna100(*args)
+
+            MDRaisedButton:
+                id: change_race
+                text: "Persenk\n100"
+                font_style: 'Button'
+                pos_hint: {'center_x': 0.5}
+                on_release:
+                    root.change_race_to_persenk110(*args)
 

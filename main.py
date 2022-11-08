@@ -33,12 +33,7 @@ class UltraBuddyApp(MDApp):
         self.theme_cls.material_style = 'M3'
 
         # Start map model
-        self.map_model = MapModel('ultra_buddy3.db')
-
-
-        # # Connect to DB
-        # self.connection = sqlite3.connect('ultra_buddy2.db')
-        # self.cursor = self.connection.cursor()
+        self.map_model = MapModel('track_processing_utils/ultrabuddy_db_multi.db', 'vitosha100')
 
         # Set up views and models
         app = MDApp.get_running_app()
@@ -46,9 +41,6 @@ class UltraBuddyApp(MDApp):
         self.map_model.add_observer(app.root.map_w)
         self.map_model.add_observer(app.root.next_w)
         app.root.map_w.main_map.center_on(*self.map_model.map_center)
-
-        # app.root.map_w.get_track_points()
-        # app.root.map_w.pin_stations()
 
         # Initiate GPS
         print('***App starting - starting GPS...')
@@ -68,5 +60,4 @@ class UltraBuddyApp(MDApp):
 
 
 if __name__ == '__main__':
-    # start app
     UltraBuddyApp().run()
