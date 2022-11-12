@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 
-from map_model import MapModel
+from appcore.map_model import MapModel
 
 
 class MainWindow(MDScreen):
@@ -9,7 +9,7 @@ class MainWindow(MDScreen):
 
     def change_race(self, race, img_path):
         app = MDApp.get_running_app()
-        app.map_model = MapModel('track_processing_utils/ultrabuddy_db_multi.db', race)
+        app.map_model = MapModel('ultrabuddy_db_multi.db', race)
         app.root.map_w.add_station_views_from_station_models()
         app.map_model.add_observer(app.root.map_w)
         app.map_model.add_observer(app.root.next_w)
@@ -22,10 +22,7 @@ class MainWindow(MDScreen):
         self.change_race('vitosha100', 'img/vit100b.jpeg')
 
     def change_race_to_tryavna100(self, source):
-        self.change_race('tryavna100', 'img/tryavna100.jpg')
-
-    def change_race_to_douglas_trail(self, source):
-        self.change_race('douglas_trail', 'img/douglas_trail.png')
+        self.change_race('tryavna100', 'img/tryavna100_cropped.jpg')
 
     def change_race_to_persenk110(self, source):
         self.change_race('persenk110', 'img/persenk110.png')

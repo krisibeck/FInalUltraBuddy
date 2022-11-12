@@ -2,13 +2,11 @@ from kivy_garden.mapview import MapMarkerPopup
 from kivymd.uix.button import MDFlatButton
 
 
-class Station(MapMarkerPopup):
+class StationView(MapMarkerPopup):
+    """SationView """
     def __init__(self, st_model, **kwargs):
-        super(Station, self).__init__(lat=st_model.lat, lon=st_model.lon, **kwargs)
+        super(StationView, self).__init__(lat=st_model.lat, lon=st_model.lon, **kwargs)
         self.model = st_model
-        # self.elev = elev
-        # self.dist = dist
-        # self.dist_diff = dist_diff
         self.btn = MDFlatButton(text=f'See\n{self.model.name}',
                                 font_style='Button',
                                 theme_text_color='Custom',
@@ -17,6 +15,3 @@ class Station(MapMarkerPopup):
                                 valign='center',
                                 halign='center')
         self.add_widget(self.btn)
-
-    # def update_station_dist_diff_from_runner(self, runner_point):
-    #     self.dist_diff = self.dist - runner_point[3]

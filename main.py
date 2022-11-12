@@ -1,17 +1,16 @@
-import sqlite3
 import configparser
 
 from kivy.core.window import Window
 from kivymd.app import MDApp
 
-from gpshelper import GpsHelper
-from map_model import MapModel
+from appcore.gpshelper import GpsHelper
+from appcore.map_model import MapModel
 
 # Uncomment to emulate phone dimensions in Desktop app
 Window.size = (375, 750)
 
 class UltraBuddyApp(MDApp):
-    """This is THE MDApp with build, on_start, on_pause, and on_resume methods.
+    """TheMDApp with build, on_start, on_pause, and on_resume methods.
     The kv file for it must be named with same name without 'App' - 'ultrabuddy'."""
 
     def build(self):
@@ -33,7 +32,7 @@ class UltraBuddyApp(MDApp):
         self.theme_cls.material_style = 'M3'
 
         # Start map model
-        self.map_model = MapModel('track_processing_utils/ultrabuddy_db_multi.db', 'vitosha100')
+        self.map_model = MapModel('ultrabuddy_db_multi.db', 'vitosha100')
 
         # Set up views and models
         app = MDApp.get_running_app()

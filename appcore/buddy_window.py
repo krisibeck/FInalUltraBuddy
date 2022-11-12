@@ -20,6 +20,10 @@ class BuddyWindow(MDScreen):
         if not len(input_bib) == 4 or not input_bib.isdigit():
             info = 'Runner bib should be a 4-digit number!'
             self.show_dialog(info)
+        model_name = MDApp.get_running_app().map_model.model_name
+        if model_name == 'persenk110' or model_name == 'tryavna100':
+            info = 'Find friend feature not available for this race yet!'
+            self.show_dialog(info)
         # 2549 for DNF
         # 2206 for third place
         app = MDApp.get_running_app()

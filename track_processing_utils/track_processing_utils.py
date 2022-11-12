@@ -181,10 +181,10 @@ if __name__ == '__main__':
     # add_race_to_db('ultrabuddy_db_multi.db', douglas_trail, *douglas_trail)
     # add_race_to_db('ultrabuddy_db_multi.db', vitosha100, *vitosha100)
     # .gpx format doesn't work as is - at some point, the points become NoneType - could be skipped?
-    add_race_to_db('ultrabuddy_db_multi.db', persenk110, *persenk110)
+    add_race_to_db('../ultrabuddy_db_multi.db', persenk110, *persenk110)
     # add_race_to_db('ultrabuddy_db_multi.db', tryavna100, *tryavna100)
 
-    print(get_all_db_table_names('ultrabuddy_db_multi.db'))
+    print(get_all_db_table_names('../ultrabuddy_db_multi.db'))
     # print(get_all_points_from_table('ultrabuddy_db_multi.db', 'vitosha100'))
     # print(get_all_stations_from_table('ultrabuddy_db_multi.db', 'vitosha100'))
     # print(get_all_points_from_table('ultrabuddy_db_multi.db', 'douglas_trail'))

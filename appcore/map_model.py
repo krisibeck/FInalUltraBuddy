@@ -1,13 +1,12 @@
 import sqlite3
 import sys
 
-from kivymd.app import MDApp
-
-from station_model import StationModel
+from appcore.station_model import StationModel
 
 
 class MapModel:
     def __init__(self, db_path, table):
+        self.model_name = table
         self.points = None
         self.model_stations = []
         self.runner_path = []
@@ -24,18 +23,14 @@ class MapModel:
         self.observers = []
 
     def _get_track_points(self, cursor, table_name):
-        # query = "SELECT 1 FROM sqlite_master WHERE type='table' and name = ?"
-        # validated_table_name = cursor.execute(query, (table_name,)).fetchone()
-        validated_table_name = table_name
-        # cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM :table WHERE st_name is NULL", {'table': table_name})
-        # cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM ? WHERE st_name is NULL", (table_name,))
+        query = "SELECT name FROM sqlite_master WHERE type='table' and name=?"
+        validated_table_name = cursor.execute(query, (table_name,)).fetchone()[0]
         cursor.execute(f"SELECT latitude, longitude, elevation, distance FROM {validated_table_name} WHERE st_name is NULL")
         self.points = cursor.fetchall()
 
     def _get_station_points(self, cursor, table_name):
-        # query = "SELECT 1 FROM sqlite_master WHERE type='table' and name = ?"
-        # validated_table_name = cursor.execute(query, (table_name,)).fetchone()
-        validated_table_name = table_name
+        query = "SELECT name FROM sqlite_master WHERE type='table' and name = ?"
+        validated_table_name = cursor.execute(query, (table_name,)).fetchone()[0]
         cursor.execute(f"SELECT * FROM {validated_table_name} WHERE st_name is NOT NULL")
         return cursor.fetchall()
 
@@ -99,7 +94,7 @@ class MapModel:
             st.update_station_dist_diff_from_runner(self.runner_path[-1][3])
         self.next_station_info = self.get_closest_station_info()
         self.notify_observers()
-        print(self.observers)
+        # print(self.observers)
 
     def add_observer(self, observer):
         self.observers.append(observer)
@@ -110,9 +105,10 @@ class MapModel:
 
 if __name__ == '__main__':
     # TODO Write tests!
-    mm = MapModel('ultra_buddy3.db')
+    pass
+    # mm = MapModel('ultra_buddy3.db')
     # print(mm.points)
     # print(mm.model_stations)
-    print(mm.map_center)
-    mm.update_model_from_gps_pos(42.50049, 23.206102)
-    print(mm.next_station_info)
+    # print(mm.map_center)
+    # mm.update_model_from_gps_pos(42.50049, 23.206102)
+    # print(mm.next_station_info)

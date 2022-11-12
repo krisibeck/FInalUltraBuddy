@@ -2,6 +2,7 @@ from kivy_garden.mapview import MapMarker
 from kivy.animation import Animation
 
 class GpsBlinker(MapMarker):
+    """GPS Blinker Animation"""
     def blink(self):
         # Animation that changes the blink size and opacity
         # When animation completes, reset animation, then repeat
